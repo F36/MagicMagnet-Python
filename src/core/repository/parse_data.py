@@ -11,26 +11,20 @@ def parse_data(url):
 
     found_links = []
 
-    try:
-        data = fetch_data(url)
+    data = fetch_data(url)
 
-        if data[0] == 200:
-            print(f'Success! Status code: {data[0]}')
-            data = data[1]
+    if data[0] == 200:
+        print(f'Success! Status code: {data[0]}')
+        data = data[1]
 
-            for link in data.find_all('a', href=True):
-                if link.get('href') is not None and link.get('href').startswith('magnet:?xt=') and len(
-                        link.get('href')) > 64:
+        for link in data.find_all('a', href=True):
+            if link.get('href') is not None and link.get('href').startswith('magnet:?xt=') and len(
+                    link.get('href')) > 64:
 
-                    found_link = SearchResult(
-                        parse_torrent_name(link.get('href')), link.get('href'))
+                found_link = SearchResult(
+                    parse_torrent_name(link.get('href')), link.get('href'))
 
-                    if found_link not in found_links:
-                        found_links.append(found_link)
+                if found_link not in found_links:
+                    found_links.append(found_link)
 
-            return found_links
-        else:
-            print(f'Error! Status code: {data[0]}')
-    except:
-        print(f'Failed to parse: {url}')
-        return found_links
+        return found_links if found_links is not None else []

@@ -8,4 +8,4 @@ def fetch_data(url):
         return [request.status_code, BeautifulSoup(request.content, 'lxml', parse_only=SoupStrainer('a'))]
     except:
         print(f'Cannot fetch data for URL: {url}')
-        return [request.status_code]
+        return 'Error'
